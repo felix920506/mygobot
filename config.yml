@@ -4,7 +4,7 @@ send-as-attachment: true
 
 # whether to save the downloaded images to filesystem
 # ignored if send-as-attachment is false
-download-files: true
+download-files: false
 
 # whether to download all images at startup
 # ignored if download-files is false
