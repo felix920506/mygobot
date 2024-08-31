@@ -6,7 +6,7 @@ with open('image_map.json', 'r', encoding='utf8') as mapfile:
 mappings = {}
 
 for i in raw_mappings:
-    mappings[i['name']] = i['filename']
+    mappings[i['name']] = i['file_name']
 
 def get_filename(name: str) -> str | None:
     if name in mappings:
