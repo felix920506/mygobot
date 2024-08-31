@@ -1,0 +1,15 @@
+# whether to send the images as attachments, true=attachments, false=link
+# sending as attachment requires file to be downloaded first
+send-as-attachment: true
+
+# whether to save the downloaded images to filesystem
+# ignored if send-as-attachment is false
+download-files: true
+
+# whether to download all images at startup
+# ignored if download-files is false
+download-at-startup: true
+max-concurrent-downloads: 8
+
+# base url for image download source
+img-store-baseurl: "https://drive.miyago9267.com/d/file/img/mygo/"
