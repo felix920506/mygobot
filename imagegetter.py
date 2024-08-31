@@ -18,19 +18,22 @@ async def get_bytes_from_http(name:str):
     link = get_link(name)
     async with aiohttp.ClientSession() as session:
         res = await session.get(link)
-        binary = res.read()
+        binary = await res.read()
     return binary
 
 async def download_file(name:str, force=False) -> None:
+    print(name)
     filename = image_map.get_filename(name)
     if os.path.exists(f'./img/{filename}') and not force:
         return
     else:
         link = get_link(name)
-        res = get_bytes_from_http(name)
-        async with await aiofiles.open(f'./img/{filename}', 'wb') as file:
-            await file.write(res)
+        res = await get_bytes_from_http(name)
+        file = await aiofiles.open(f'./img/{filename}', 'wb')
+        await file.write(res)
+        await file.close()
 
+# intended for use with pycord attachment function only
 async def get_file_handle(name: str) -> str | bytes:
     filename = image_map.get_filename(name)
     if SETTINGS['download-files']:
@@ -43,24 +46,34 @@ async def get_file_handle(name: str) -> str | bytes:
         return await get_bytes_from_http(name)
 
 async def download_thread(filequeue: queue.Queue) -> None:
-    while not filequeue.empty:
+    while not filequeue.empty():
         try:
-            name = filequeue.get_nowait()
+            name = filequeue.get(timeout=1)
             await download_file(name)
         except:
             break
-    pass
 
-def download_all() -> None:
+async def download_all() -> None:
+    if not os.path.isdir('./img'):
+        try:
+            os.mkdir('./img')
+        except:
+            print('failed to make storage dir, quitting')
+            exit()
     file_list = image_map.get_all_names()
-    filequeue = queue.Queue
+    filequeue = queue.Queue()
     for file in file_list:
        filequeue.put(file)
     threadslist = []
-    for i in range(SETTINGS['max-concurrent-downloads']):
-        threadslist.append(lambda: download_thread(filequeue))
+    # for i in range(SETTINGS['max-concurrent-downloads']):
+    #     threadslist.append(download_thread(filequeue))
+    async with asyncio.TaskGroup() as tg:
+        for i in range(SETTINGS['max-concurrent-downloads']):
+            threadslist.append(tg.create_task(download_thread(filequeue)))
+    # await asyncio.gather(*threadslist)
+    # for file in file_list:
+    #     await download_file(file)
     
-    asyncio.run(asyncio.gather(*threadslist))
-    
-
+if __name__ == '__main__':
+    asyncio.run(download_all())
     

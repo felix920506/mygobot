@@ -10,7 +10,7 @@ for i in raw_mappings:
 
 def get_filename(name: str) -> str | None:
     if name in mappings:
-        return mappings['name']
+        return mappings[name]
     return None
 
 def get_all_names() -> list:

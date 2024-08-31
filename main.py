@@ -2,6 +2,9 @@ import discord
 import yaml
 import json
 import os
+import imagegetter
+import image_map
+import asyncio
 
 with open('config.yml', 'r', encoding='utf8') as configfile:
     SETTINGS = yaml.load(configfile, yaml.Loader)
@@ -16,4 +19,4 @@ if SETTINGS['send-as-attachment'] & SETTINGS['download-files']:
             exit()
     
     if SETTINGS['download-at-startup']:
-        pass
+        asyncio.run(imagegetter.download_all())
