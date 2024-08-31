@@ -5,6 +5,7 @@ import image_map
 import os
 import queue
 import asyncio
+import io
 
 with open('config.yml', 'r', encoding='utf8') as settingsfile:
     SETTINGS = yaml.load(settingsfile, yaml.Loader)
@@ -22,11 +23,11 @@ async def get_bytes_from_http(name:str):
     return binary
 
 async def download_file(name:str, force=False) -> None:
-    print(name)
     filename = image_map.get_filename(name)
     if os.path.exists(f'./img/{filename}') and not force:
         return
     else:
+        print(f'downloading {name}')
         link = get_link(name)
         res = await get_bytes_from_http(name)
         file = await aiofiles.open(f'./img/{filename}', 'wb')
@@ -43,7 +44,7 @@ async def get_file_handle(name: str) -> str | bytes:
         return f'./img/{filename}'
     
     else:
-        return await get_bytes_from_http(name)
+        return io.BytesIO(await get_bytes_from_http(name))
 
 async def download_thread(filequeue: queue.Queue) -> None:
     while not filequeue.empty():

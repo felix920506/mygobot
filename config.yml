@@ -8,8 +8,8 @@ download-files: true
 
 # whether to download all images at startup
 # ignored if download-files is false
-download-at-startup: true
-max-concurrent-downloads: 8
+download-at-startup: false
+max-concurrent-downloads: 16
 
 # base url for image download source
 img-store-baseurl: "https://drive.miyago9267.com/d/file/img/mygo/"
