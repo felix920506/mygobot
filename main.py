@@ -22,9 +22,13 @@ if SETTINGS['send-as-attachment'] & SETTINGS['download-files']:
     if SETTINGS['download-at-startup']:
         asyncio.run(imagegetter.download_all())
 
+def reload():
+    global message_mappings
+    with open('mygo.json', 'r', encoding='utf8') as mappingfile:
+        message_mappings = json.load(mappingfile)
 
-with open('mygo.json', 'r', encoding='utf8') as mappingfile:
-    message_mappings = json.load(mappingfile)
+message_mappings = {}
+reload()
 
 # bot section
 with open('token.txt', 'r', encoding='utf8') as tokenfile:
@@ -59,9 +63,10 @@ async def on_message(ctx: discord.Message):
     
     if bot.is_owner(ctx.author):
         if ctx.content.strip() == "春日影":
-            global message_mappings
-            with open('mygo.json', 'r', encoding='utf8') as mappingfile:
-                message_mappings = json.load(mappingfile)
+            # global message_mappings
+            # with open('mygo.json', 'r', encoding='utf8') as mappingfile:
+            #     message_mappings = json.load(mappingfile)
+            reload()
             print("為什麼要演奏春日影！")
 
 bot.run(bot_token)
