@@ -61,11 +61,8 @@ async def on_message(ctx: discord.Message):
         else:
             await ctx.channel.send(imagegetter.get_link(img))
     
-    if bot.is_owner(ctx.author):
+    if await bot.is_owner(ctx.author):
         if ctx.content.strip() == "春日影":
-            # global message_mappings
-            # with open('mygo.json', 'r', encoding='utf8') as mappingfile:
-            #     message_mappings = json.load(mappingfile)
             reload()
             print("為什麼要演奏春日影！")
 
