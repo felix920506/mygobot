@@ -60,10 +60,19 @@ async def on_message(ctx: discord.Message):
         
         if SETTINGS['send-as-attachment']:
             file = await imagegetter.get_file_handle(img)
+            if file is None:
+                print(f'Could not send file {name}')
             fileObject = discord.File(file, f'{img}.jpg')
-            await ctx.channel.send(file=fileObject)
+            try:
+                await ctx.channel.send(file=fileObject)
+            except discord.errors.Forbidden:
+                print("permission denied when attempting to send message")
+                
         else:
-            await ctx.channel.send(imagegetter.get_link(img))
+            try:
+                await ctx.channel.send(imagegetter.get_link(img))
+            except discord.errors.Forbidden:
+                print("permission denied when attempting to send message")
     
     if await bot.is_owner(ctx.author):
         if ctx.content.strip() == "春日影":
