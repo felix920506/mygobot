@@ -66,14 +66,9 @@ async def download_all() -> None:
     for file in file_list:
        filequeue.put(file)
     threadslist = []
-    # for i in range(SETTINGS['max-concurrent-downloads']):
-    #     threadslist.append(download_thread(filequeue))
     async with asyncio.TaskGroup() as tg:
         for i in range(SETTINGS['max-concurrent-downloads']):
             threadslist.append(tg.create_task(download_thread(filequeue)))
-    # await asyncio.gather(*threadslist)
-    # for file in file_list:
-    #     await download_file(file)
     
 if __name__ == '__main__':
     asyncio.run(download_all())
