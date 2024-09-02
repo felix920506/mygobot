@@ -10,7 +10,6 @@ python = "^3.12"
 py-cord = "^2.6.0"
 pyyaml = "^6.0.2"
 aiohttp = "^3.10.5"
-aiohttp-client-cache = "^0.11.1"
 aiofiles = "^24.1.0"
 
 
