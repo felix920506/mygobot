@@ -50,6 +50,10 @@ async def on_message(ctx: discord.Message):
             value = message_mappings[key]
             imgs.update(value['value'])
     
+    for name in image_map.get_all_names():
+        if msg in name:
+            imgs.add(name)
+
     imgs = list(imgs)
     if len(imgs) > 0:
         img = imgs[random.randint(0, len(imgs)-1)]
