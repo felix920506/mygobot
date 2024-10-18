@@ -45,6 +45,10 @@ async def on_message(ctx: discord.Message):
         return
     imgs = set()
     msg = ctx.content.lower()
+
+    if not msg:
+        return
+    
     for key in message_mappings:
         if key in msg:
             value = message_mappings[key]
