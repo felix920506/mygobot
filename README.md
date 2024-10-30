@@ -8,6 +8,9 @@
 
 ## 如何使用
 
+> [!IMPORTANT]  
+> 因為讀取訊息內容的權限遭到 DC 官方拒絕，公共版本的機器人近期將改以指令方式互動
+
 加入機器人到你的 Discord 伺服器：
 https://discord.com/oauth2/authorize?client_id=1279512525766922391
 
