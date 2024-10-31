@@ -123,6 +123,17 @@ async def search(ctx: discord.ApplicationContext, message: discord.Option(str, n
     else:
         # nothing found for this message
         await ctx.respond("沒有找到表情包", ephemeral=True)
+
+# help command
+@mygo.command(description='幫助')
+async def help(ctx: discord.ApplicationContext):
+    await ctx.respond('https://github.com/felix920506/mygobot/blob/main/help.md', ephemeral=True)
+
+# about command
+@mygo.command(description='關於')
+async def about(ctx: discord.ApplicationContext):
+    await ctx.respond('https://github.com/felix920506/mygobot', ephemeral=True)
+
 bot.run(bot_token)
 
     
