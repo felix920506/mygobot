@@ -39,24 +39,32 @@ intents.message_content = True
 
 bot = discord.Bot(intents=intents)
 
-@bot.event
-async def on_message(ctx: discord.Message):
-    if ctx.author.bot:
-        return
+def get_images(message: str) -> set[str]:
+    message = message.lower()
     imgs = set()
-    msg = ctx.content.lower()
 
-    if not msg:
+    if not message:
         return
     
     for key in message_mappings:
-        if key in msg:
+        if key in message:
             value = message_mappings[key]
             imgs.update(value['value'])
     
     for name in image_map.get_all_names():
-        if msg in name:
+        if message in name:
             imgs.add(name)
+
+    return imgs
+
+@bot.event
+async def on_message(ctx: discord.Message):
+    # ignore bots
+    if ctx.author.bot:
+        return
+    
+    # get images
+    imgs = get_images(ctx.content)
 
     imgs = list(imgs)
     if len(imgs) > 0:
