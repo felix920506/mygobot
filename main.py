@@ -73,7 +73,7 @@ async def on_message(ctx: discord.Message):
         if SETTINGS['send-as-attachment']:
             file = await imagegetter.get_file_handle(img)
             if file is None:
-                print(f'Could not send file {name}')
+                print(f'Could not send file {img}')
             fileObject = discord.File(file, f'{img}.jpg')
             try:
                 await ctx.channel.send(file=fileObject)
@@ -91,6 +91,38 @@ async def on_message(ctx: discord.Message):
             reload()
             print("為什麼要演奏春日影！")
 
+
+# slash commands section
+mygo = bot.create_group('mygo')
+
+@mygo.command(description="搜尋表情包")
+async def search(ctx: discord.ApplicationContext, message: discord.Option(str, name="訊息")):
+    # get images
+    imgs = get_images(message)
+
+    imgs = list(imgs)
+    if len(imgs) > 0:
+        img = imgs[random.randint(0, len(imgs)-1)]
+        
+        if SETTINGS['send-as-attachment']:
+            file = await imagegetter.get_file_handle(img)
+            if file is None:
+                print(f'Could not send file {img}')
+            fileObject = discord.File(file, f'{img}.jpg')
+            try:
+                await ctx.respond(file=fileObject)
+            except discord.errors.Forbidden:
+                print("permission denied when attempting to send message")
+                
+        else:
+            try:
+                await ctx.respond(imagegetter.get_link(img))
+            except discord.errors.Forbidden:
+                print("permission denied when attempting to send message")
+
+    else:
+        # nothing found for this message
+        await ctx.respond("沒有找到表情包", ephemeral=True)
 bot.run(bot_token)
 
     
