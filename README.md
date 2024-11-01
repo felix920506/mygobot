@@ -6,6 +6,10 @@
 
 ![image](https://github.com/user-attachments/assets/dd372f19-ef42-4815-a6d8-1361982bcc44)
 
+也可以使用指令
+
+<img width="661" alt="截圖 2024-10-31 晚上8 05 02" src="https://github.com/user-attachments/assets/33de3be5-71b9-4652-82b9-e0e897e22c1f">
+
 ## 如何使用
 
 > [!IMPORTANT]  
