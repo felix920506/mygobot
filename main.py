@@ -35,7 +35,7 @@ with open('token.txt', 'r', encoding='utf8') as tokenfile:
     bot_token = tokenfile.read().strip()
 
 intents = discord.Intents.default()
-intents.message_content = True
+# intents.message_content = True
 
 bot = discord.Bot(intents=intents)
 
@@ -44,7 +44,7 @@ def get_images(message: str) -> set[str]:
     imgs = set()
 
     if not message:
-        return
+        return imgs
     
     for key in message_mappings:
         if key in message:
